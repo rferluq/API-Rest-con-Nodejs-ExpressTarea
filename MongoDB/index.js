@@ -121,7 +121,7 @@ const PORT = process.env.PORT ?? 3000
 const DB_URL = process.env.MONGODB_URI ?? 'mongodb://localhost:27017'
 const DB_NAME = process.env.DB_NAME ?? 'api'
 const USERS = 'users'
-const PRODUCTS = 'products'
+const VEHICLES = 'vehiculos'
 const REFRESH_TOKENS = 'refresh_tokens'
 
 const client = new MongoClient(DB_URL)
@@ -191,12 +191,12 @@ app.delete('/api/users/:id', verifyToken, async (request, response) => {
     response.status(200).json(results)
 })
 
-// -------------- PRODUCTS ------------------
+// -------------- VEHICULOS ------------------
 
 // GET
-app.get('/api/products', async (request, response) => {
+app.get('/api/vehiculos', async (request, response) => {
     const database = client.db(DB_NAME);
-    const collection = database.collection(PRODUCTS);
+    const collection = database.collection(VEHICLES);
 
     const results = await collection.find({}).toArray()
 
@@ -204,12 +204,12 @@ app.get('/api/products', async (request, response) => {
 })
 
 // POST 
-app.post('/api/products', verifyToken, async (request, response) => {
+app.post('/api/vehiculos', verifyToken, async (request, response) => {
     if (!request.is('json'))
         return response.json({ message: 'Debes proporcionar datos JSON' })
 
     const database = client.db(DB_NAME);
-    const collection = database.collection(PRODUCTS);
+    const collection = database.collection(VEHICLES);
 
     const { nombre, precio } = request.body
     const results = await collection.insertOne({ nombre, precio });
@@ -218,9 +218,9 @@ app.post('/api/products', verifyToken, async (request, response) => {
 })
 
 // GET 
-app.get('/api/products/:id', async (request, response) => {
+app.get('/api/vehiculos/:id', async (request, response) => {
     const database = client.db(DB_NAME);
-    const collection = database.collection(PRODUCTS);
+    const collection = database.collection(VEHICLES);
 
     const { id } = request.params
     const results = await collection.find({ _id: new ObjectId(id) }).toArray()
@@ -229,12 +229,12 @@ app.get('/api/products/:id', async (request, response) => {
 })
 
 // PUT
-app.put('/api/products/:id', verifyToken, async (request, response) => {
+app.put('/api/vehiculos/:id', verifyToken, async (request, response) => {
     if (!request.is('json'))
         return response.json({ message: 'Debes proporcionar datos JSON' })
 
     const database = client.db(DB_NAME);
-    const collection = database.collection(PRODUCTS);
+    const collection = database.collection(VEHICLES);
 
     const { id } = request.params
     const { nombre, precio } = request.body
@@ -244,9 +244,9 @@ app.put('/api/products/:id', verifyToken, async (request, response) => {
 })
 
 // DELETE
-app.delete('/api/products/:id', verifyToken, async (request, response) => {
+app.delete('/api/vehiculos/:id', verifyToken, async (request, response) => {
     const database = client.db(DB_NAME);
-    const collection = database.collection(PRODUCTS);
+    const collection = database.collection(VEHICLES);
 
     const { id } = request.params
     const results = await collection.deleteOne({ _id: new ObjectId(id) })
