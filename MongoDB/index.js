@@ -127,7 +127,7 @@ const REFRESH_TOKENS = 'refresh_tokens'
 const client = new MongoClient(DB_URL)
 
 app.get("/", (request, response) => {
-    response.redirect("/api/users")
+    response.redirect("/api-docs")
 })
 
 
