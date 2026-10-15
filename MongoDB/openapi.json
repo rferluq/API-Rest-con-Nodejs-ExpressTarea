@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "API REST Usuarios y Productos",
+    "title": "API REST Vehículos",
     "version": "1.0.0",
-    "description": "API con Node.js, Express, MongoDB y JWT (access + refresh token)."
+    "description": "API con Node.js, Express, MongoDB y JWT (access + refresh token). Usuarios de prueba: Jose/jose, Ana/ana, Eva/eva."
   },
   "servers": [
     {
@@ -15,52 +15,10 @@
       "name": "Auth"
     },
     {
-      "name": "Users"
-    },
-    {
-      "name": "Products"
+      "name": "Vehiculos"
     }
   ],
   "paths": {
-    "/api/register": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Registrar usuario",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Usuario creado"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "409": {
-            "description": "El usuario ya existe",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              }
-            }
-          },
-          "429": {
-            "$ref": "#/components/responses/TooMany"
-          }
-        }
-      }
-    },
     "/api/login": {
       "post": {
         "tags": [
@@ -79,24 +37,11 @@
         },
         "responses": {
           "200": {
-            "description": "Access token y refresh token",
+            "description": "Access token y refresh token (o mensaje de error si las credenciales no son válidas)",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Tokens"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "description": "Credenciales incorrectas",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
                 }
               }
             }
@@ -151,45 +96,12 @@
         }
       }
     },
-    "/api/logout": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Cerrar sesión (invalida el refresh token)",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Sesión cerrada",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              }
-            }
-          },
-          "429": {
-            "$ref": "#/components/responses/TooMany"
-          }
-        }
-      }
-    },
-    "/api/users": {
+    "/api/vehiculos": {
       "get": {
         "tags": [
-          "Users"
+          "Vehiculos"
         ],
-        "summary": "Listar users",
+        "summary": "Listar vehículos",
         "responses": {
           "200": {
             "description": "Lista",
@@ -198,7 +110,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Vehiculo"
                   }
                 }
               }
@@ -211,9 +123,9 @@
       },
       "post": {
         "tags": [
-          "Users"
+          "Vehiculos"
         ],
-        "summary": "Crear user",
+        "summary": "Crear vehículo",
         "security": [
           {
             "bearerAuth": []
@@ -224,7 +136,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserInput"
+                "$ref": "#/components/schemas/VehiculoInput"
               }
             }
           }
@@ -232,9 +144,6 @@
         "responses": {
           "200": {
             "description": "Creado"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
@@ -245,12 +154,12 @@
         }
       }
     },
-    "/api/users/{id}": {
+    "/api/vehiculos/{id}": {
       "get": {
         "tags": [
-          "Users"
+          "Vehiculos"
         ],
-        "summary": "Obtener user por ID",
+        "summary": "Obtener vehículo por ID",
         "parameters": [
           {
             "name": "id",
@@ -270,7 +179,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Vehiculo"
                   }
                 }
               }
@@ -286,9 +195,9 @@
       },
       "put": {
         "tags": [
-          "Users"
+          "Vehiculos"
         ],
-        "summary": "Actualizar user",
+        "summary": "Actualizar vehículo",
         "security": [
           {
             "bearerAuth": []
@@ -310,7 +219,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserInput"
+                "$ref": "#/components/schemas/VehiculoInput"
               }
             }
           }
@@ -332,192 +241,9 @@
       },
       "delete": {
         "tags": [
-          "Users"
+          "Vehiculos"
         ],
-        "summary": "Eliminar user",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "ID de MongoDB (ObjectId)"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Eliminado"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "429": {
-            "$ref": "#/components/responses/TooMany"
-          }
-        }
-      }
-    },
-    "/api/products": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Listar products",
-        "responses": {
-          "200": {
-            "description": "Lista",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Product"
-                  }
-                }
-              }
-            }
-          },
-          "429": {
-            "$ref": "#/components/responses/TooMany"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Crear product",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Creado"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "429": {
-            "$ref": "#/components/responses/TooMany"
-          }
-        }
-      }
-    },
-    "/api/products/{id}": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Obtener product por ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "ID de MongoDB (ObjectId)"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resultado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Product"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "429": {
-            "$ref": "#/components/responses/TooMany"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Actualizar product",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "ID de MongoDB (ObjectId)"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Actualizado"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
-          },
-          "429": {
-            "$ref": "#/components/responses/TooMany"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Eliminar product",
+        "summary": "Eliminar vehículo",
         "security": [
           {
             "bearerAuth": []
@@ -568,24 +294,6 @@
           }
         }
       },
-      "RegisterInput": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "edad": {
-            "type": "number"
-          },
-          "password": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "nombre",
-          "password"
-        ]
-      },
       "LoginInput": {
         "type": "object",
         "properties": {
@@ -623,60 +331,39 @@
           }
         }
       },
-      "User": {
+      "Vehiculo": {
         "type": "object",
         "properties": {
           "_id": {
             "type": "string"
           },
-          "nombre": {
+          "marca": {
             "type": "string"
           },
-          "edad": {
+          "modelo": {
+            "type": "string"
+          },
+          "anio": {
             "type": "number"
           }
         }
       },
-      "UserInput": {
+      "VehiculoInput": {
         "type": "object",
         "properties": {
-          "nombre": {
+          "marca": {
             "type": "string"
           },
-          "edad": {
+          "modelo": {
+            "type": "string"
+          },
+          "anio": {
             "type": "number"
           }
         },
         "required": [
-          "nombre"
-        ]
-      },
-      "Product": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string"
-          },
-          "nombre": {
-            "type": "string"
-          },
-          "precio": {
-            "type": "number"
-          }
-        }
-      },
-      "ProductInput": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "precio": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "nombre"
+          "marca",
+          "modelo"
         ]
       }
     },
