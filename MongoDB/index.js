@@ -23,9 +23,6 @@ const VEHICLES = 'vehiculos'
 const client = new MongoClient(DB_URL)
 
 
-
-
-
 app.use(express.json())   // IMPORTANTE
 app.use(cors())           // Para habilitar CORS
 
