@@ -40,6 +40,16 @@ const limitMessage = { message: "Demasiadas peticiones, inténtalo más tarde" }
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 100, message: limitMessage }))
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, message: limitMessage })
 
+const swaggerCdn = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5"
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, {
+        customCssUrl: `${swaggerCdn}/swagger-ui.css`,
+        customJs: [`${swaggerCdn}/swagger-ui-bundle.js`, `${swaggerCdn}/swagger-ui-standalone-preset.js`]
+    })
+)
+
 app.use(
     "/api-docs",
     swaggerUi.serve,
