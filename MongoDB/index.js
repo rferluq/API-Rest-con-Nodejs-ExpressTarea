@@ -23,11 +23,6 @@ const VEHICLES = 'vehiculos'
 const client = new MongoClient(DB_URL)
 
 
-let Users = [
-    { id: 0, nombre: "Jose", password: "$2b$10$jX4wnioguxvI26XtC..ZTupPTiE7ogww5NhUGWw0CDiL81PcFKEJ2" }, // password: jose
-    { id: 1, nombre: "Ana", password: "$2b$10$l/.WxXkTG6pKVB7KYU/KROXVvH7nAQqyrsq5PW1b.1X4v6L2u00u2" }, // password: ana
-    { id: 2, nombre: "Eva", password: "$2b$10$TW/qH6MQ/fd4sRijnHIdoekydhtIonurDMvxZHgqNaIR4st2A90Xe" }  // password: eva
-]
 
 
 
